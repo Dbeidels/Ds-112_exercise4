@@ -11,30 +11,198 @@ output:
 ---
 
 
-```{r setup, include=FALSE}
-#knitr::opts_chunk$set(echo = TRUE, error=TRUE, message=FALSE, warning=FALSE)
+
+
+
+```r
+library(tidyverse)     # for data cleaning and plotting
 ```
 
-```{r libraries}
-library(tidyverse)     # for data cleaning and plotting
+```
+## Warning: package 'tidyverse' was built under R version 4.1.2
+```
+
+```
+## -- Attaching packages --------------------------------------- tidyverse 1.3.1 --
+```
+
+```
+## v ggplot2 3.3.5     v purrr   0.3.4
+## v tibble  3.1.4     v dplyr   1.0.7
+## v tidyr   1.1.3     v stringr 1.4.0
+## v readr   2.0.1     v forcats 0.5.1
+```
+
+```
+## Warning: package 'forcats' was built under R version 4.1.2
+```
+
+```
+## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
+```
+
+```r
 library(lubridate)     # for date manipulation
+```
+
+```
+## 
+## Attaching package: 'lubridate'
+```
+
+```
+## The following objects are masked from 'package:base':
+## 
+##     date, intersect, setdiff, union
+```
+
+```r
 library(openintro)     # for the abbr2state() function
+```
+
+```
+## Warning: package 'openintro' was built under R version 4.1.2
+```
+
+```
+## Loading required package: airports
+```
+
+```
+## Warning: package 'airports' was built under R version 4.1.2
+```
+
+```
+## Loading required package: cherryblossom
+```
+
+```
+## Warning: package 'cherryblossom' was built under R version 4.1.2
+```
+
+```
+## Loading required package: usdata
+```
+
+```
+## Warning: package 'usdata' was built under R version 4.1.2
+```
+
+```r
 library(palmerpenguins)# for Palmer penguin data
 library(maps)          # for map data
+```
+
+```
+## Warning: package 'maps' was built under R version 4.1.2
+```
+
+```
+## 
+## Attaching package: 'maps'
+```
+
+```
+## The following object is masked from 'package:purrr':
+## 
+##     map
+```
+
+```r
 library(ggmap)         # for mapping points on maps
+```
+
+```
+## Warning: package 'ggmap' was built under R version 4.1.2
+```
+
+```
+## Google's Terms of Service: https://cloud.google.com/maps-platform/terms/.
+```
+
+```
+## Please cite ggmap if you use it! See citation("ggmap") for details.
+```
+
+```r
 library(gplots)        # for col2hex() function
+```
+
+```
+## Warning: package 'gplots' was built under R version 4.1.2
+```
+
+```
+## 
+## Attaching package: 'gplots'
+```
+
+```
+## The following object is masked from 'package:stats':
+## 
+##     lowess
+```
+
+```r
 library(RColorBrewer)  # for color palettes
 library(sf)            # for working with spatial data
+```
+
+```
+## Warning: package 'sf' was built under R version 4.1.2
+```
+
+```
+## Linking to GEOS 3.9.1, GDAL 3.2.1, PROJ 7.2.1; sf_use_s2() is TRUE
+```
+
+```r
 library(leaflet)       # for highly customizable mapping
+```
+
+```
+## Warning: package 'leaflet' was built under R version 4.1.2
+```
+
+```r
 library(carData)       # for Minneapolis police stops data
 library(ggthemes)      # for more themes (including theme_map())
+```
+
+```
+## Warning: package 'ggthemes' was built under R version 4.1.2
+```
+
+```r
 theme_set(theme_minimal())
 ```
 
-```{r data}
+
+```r
 # Starbucks locations
 Starbucks <- read_csv("https://www.macalester.edu/~ajohns24/Data/Starbucks.csv")
+```
 
+```
+## Rows: 25600 Columns: 13
+```
+
+```
+## -- Column specification --------------------------------------------------------
+## Delimiter: ","
+## chr (11): Brand, Store Number, Store Name, Ownership Type, Street Address, C...
+## dbl  (2): Longitude, Latitude
+```
+
+```
+## 
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+```
+
+```r
 starbucks_us_by_state <- Starbucks %>% 
   filter(Country == "US") %>% 
   count(`State/Province`) %>% 
@@ -55,7 +223,24 @@ favorite_stp_by_lisa <- tibble(
 
 #COVID-19 data from the New York Times
 covid19 <- read_csv("https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv")
+```
 
+```
+## Rows: 40606 Columns: 5
+```
+
+```
+## -- Column specification --------------------------------------------------------
+## Delimiter: ","
+## chr  (2): state, fips
+## dbl  (2): cases, deaths
+## date (1): date
+```
+
+```
+## 
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
 ## Put your homework on GitHub!
@@ -95,9 +280,7 @@ These exercises will reiterate what you learned in the "Mapping data with R" tut
 ### Starbucks locations (`ggmap`)
 
   1. Add the `Starbucks` locations to a world map. Add an aesthetic to the world map that sets the color of the points according to the ownership type. What, if anything, can you deduce from this visualization?  
-```{r}
 
-```
 
   2. Construct a new map of Starbucks locations in the Twin Cities metro area (approximately the 5 county metro area).  
 
@@ -111,12 +294,32 @@ These exercises will reiterate what you learned in the "Mapping data with R" tut
 
 The example I showed in the tutorial did not account for population of each state in the map. In the code below, a new variable is created, `starbucks_per_10000`, that gives the number of Starbucks per 10,000 people. It is in the `starbucks_with_2018_pop_est` dataset.
 
-```{r}
+
+```r
 census_pop_est_2018 <- read_csv("https://www.dropbox.com/s/6txwv3b4ng7pepe/us_census_2018_state_pop_est.csv?dl=1") %>% 
   separate(state, into = c("dot","state"), extra = "merge") %>% 
   select(-dot) %>% 
   mutate(state = str_to_lower(state))
+```
 
+```
+## Rows: 51 Columns: 2
+```
+
+```
+## -- Column specification --------------------------------------------------------
+## Delimiter: ","
+## chr (1): state
+## dbl (1): est_pop_2018
+```
+
+```
+## 
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+```
+
+```r
 starbucks_with_2018_pop_est <-
   starbucks_us_by_state %>% 
   left_join(census_pop_est_2018,
@@ -155,24 +358,38 @@ Two data tables are available:
 
 Here is the code to read in the data. We do this a little differently than usualy, which is why it is included here rather than at the top of this file. To avoid repeatedly re-reading the files, start the data import chunk with `{r cache = TRUE}` rather than the usual `{r}`. This code reads in the large dataset right away.
 
-```{r cache=TRUE}
+
+```r
 data_site <- 
   "https://www.macalester.edu/~dshuman1/data/112/2014-Q4-Trips-History-Data.rds" 
 Trips <- readRDS(gzcon(url(data_site)))
 Stations<-read_csv("http://www.macalester.edu/~dshuman1/data/112/DC-Stations.csv")
 ```
 
-  9. Use the latitude and longitude variables in `Stations` to make a visualization of the total number of departures from each station in the `Trips` data. Use either color or size to show the variation in number of departures. This time, plot the points on top of a map. Use any of the mapping tools you'd like.
-  
-```{r}
+```
+## Rows: 347 Columns: 5
+```
 
 ```
+## -- Column specification --------------------------------------------------------
+## Delimiter: ","
+## chr (1): name
+## dbl (4): lat, long, nbBikes, nbEmptyDocks
+```
+
+```
+## 
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+```
+
+  9. Use the latitude and longitude variables in `Stations` to make a visualization of the total number of departures from each station in the `Trips` data. Use either color or size to show the variation in number of departures. This time, plot the points on top of a map. Use any of the mapping tools you'd like.
+  
+
   
   10. Only 14.4% of the trips in our data are carried out by casual users. Create a plot that shows which area(s) have stations with a much higher percentage of departures by casual users. What patterns do you notice? Also plot this on top of a map. I think it will be more clear what the patterns are.
   
-```{r}
 
-```
   
 ### COVID-19 data
 
@@ -194,7 +411,8 @@ These exercises use the datasets `MplsStops` and `MplsDemo` from the `carData` l
   
   16. Save the folder from moodle called Minneapolis_Neighborhoods into your project/repository folder for this assignment. Make sure the folder is called Minneapolis_Neighborhoods. Use the code below to read in the data and make sure to **delete the `eval=FALSE`**. Although it looks like it only links to the .sph file, you need the entire folder of files to create the `mpls_nbhd` data set. These data contain information about the geometries of the Minneapolis neighborhoods. Using the `mpls_nbhd` dataset as the base file, join the `mpls_suspicious` and `MplsDemo` datasets to it by neighborhood (careful, they are named different things in the different files). Call this new dataset `mpls_all`.
 
-```{r, eval=FALSE}
+
+```r
 mpls_nbhd <- st_read("Minneapolis_Neighborhoods/Minneapolis_Neighborhoods.shp", quiet = TRUE)
 ```
 
