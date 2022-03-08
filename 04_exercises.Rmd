@@ -96,10 +96,17 @@ These exercises will reiterate what you learned in the "Mapping data with R" tut
 
   1. Add the `Starbucks` locations to a world map. Add an aesthetic to the world map that sets the color of the points according to the ownership type. What, if anything, can you deduce from this visualization?  
 ```{r}
+bbox <- c(left = -180, bottom = -57, right = 179, top =82.1)
+world_map <- get_stamenmap(bbox, maptype = "terrain",zoom=2)
 
+ggmap(world_map)+
+  geom_point(data = Starbucks,aes(x = Longitude, y =Latitude,color=`Ownership Type`))
 ```
 
-  2. Construct a new map of Starbucks locations in the Twin Cities metro area (approximately the 5 county metro area).  
+  2. Construct a new map of Starbucks locations in the Twin Cities metro area (approximately the 5 county metro area). 
+  
+```{r}
+```
 
   3. In the Twin Cities plot, play with the zoom number. What does it do?  (just describe what it does - don't actually include more than one map).  
 
@@ -206,6 +213,8 @@ mpls_nbhd <- st_read("Minneapolis_Neighborhoods/Minneapolis_Neighborhoods.shp", 
 ## GitHub link
 
   19. Below, provide a link to your GitHub page with this set of Weekly Exercises. Specifically, if the name of the file is 04_exercises.Rmd, provide a link to the 04_exercises.md file, which is the one that will be most readable on GitHub.
+  
+https://github.com/Dbeidels/Ds-112_exercise4/blob/master/04_exercises.md
 
 
 **DID YOU REMEMBER TO UNCOMMENT THE OPTIONS AT THE TOP?**
